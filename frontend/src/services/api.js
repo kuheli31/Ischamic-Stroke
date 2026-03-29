@@ -7,5 +7,9 @@ export const uploadScan = async (file) => {
     body: formData,
   });
 
+  if (!response.ok) {
+    throw new Error("Failed to upload the scan");
+  }
+
   return response.json();
 };

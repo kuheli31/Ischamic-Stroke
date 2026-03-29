@@ -9,24 +9,57 @@ function Home() {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
 
+  const handleLogout = () => {
+    setUser(null);
+    setResult(null);
+  };
+
   return (
     <div className="container">
-      
+
       <div className="card">
 
-        <h1 className="title">🧠 Stroke Detection AI</h1>
+        {/* HEADER */}
+        <div className="header">
+          <h1 className="title">🧠 Stroke Detection AI</h1>
 
+          {user && (
+            <div className="user-info">
+              <img src={user.photo} alt="profile" />
+              <button onClick={handleLogout}>Logout</button>
+            </div>
+          )}
+        </div>
+
+        {/* LOGIN */}
         {!user ? (
           <Login setUser={setUser} />
         ) : (
           <>
             <p className="welcome">Welcome, {user.name} 👋</p>
 
-            <UploadForm setResult={setResult} setLoading={setLoading} />
+            {/* UPLOAD */}
+            <UploadForm
+              setResult={setResult}
+              setLoading={setLoading}
+            />
 
+            {/* LOADER */}
             {loading && <Loader />}
 
-            <ResultCard result={result} />
+            {/* RESULT */}
+            {result && (
+              <>
+                <ResultCard result={result} />
+
+                <button
+                  className="reset-btn"
+                  onClick={() => setResult(null)}
+                >
+                  🔄 Try Another Scan
+                </button>
+              </>
+            )}
           </>
         )}
 
